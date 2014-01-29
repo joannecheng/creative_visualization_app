@@ -16,13 +16,24 @@ ActiveRecord::Schema.define(version: 20140127044006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "assignees", force: true do |t|
+    t.integer "issue_id"
+    t.string  "login"
+  end
+
   create_table "issues", force: true do |t|
-    t.string "url"
-    t.string "state"
-    t.string "title"
-    t.string "body"
-    t.date   "issue_created_at"
-    t.date   "issue_closed_at"
+    t.string  "url"
+    t.string  "state"
+    t.string  "title"
+    t.string  "body"
+    t.date    "github_created_at"
+    t.date    "github_closed_at"
+    t.integer "github_issue_id"
+  end
+
+  create_table "labels", force: true do |t|
+    t.integer "issue_id"
+    t.string  "name"
   end
 
 end
