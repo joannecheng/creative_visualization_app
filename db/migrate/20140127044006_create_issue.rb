@@ -4,7 +4,7 @@ class CreateIssue < ActiveRecord::Migration
       t.string :url
       t.string :state
       t.string :title
-      t.string :body
+      t.text :body
       t.date :github_created_at
       t.date :github_closed_at
       t.integer :github_issue_id

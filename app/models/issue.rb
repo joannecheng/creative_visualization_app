@@ -2,7 +2,10 @@ class Issue < ActiveRecord::Base
   has_one :assignee
   has_many :labels
 
+  validates :url, uniqueness: true
+
   def self.import_issue(content)
+    content = HashWithIndifferentAccess.new(content)
     issue = Issue.new()
     issue.url = content[:url]
     issue.state = content[:state]

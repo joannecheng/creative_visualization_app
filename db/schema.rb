@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20140127044006) do
     t.string  "url"
     t.string  "state"
     t.string  "title"
-    t.string  "body"
+    t.text    "body"
     t.date    "github_created_at"
     t.date    "github_closed_at"
     t.integer "github_issue_id"
