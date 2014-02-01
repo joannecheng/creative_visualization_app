@@ -36,4 +36,9 @@ ActiveRecord::Schema.define(version: 20140127044006) do
     t.string  "name"
   end
 
+  create_table "pull_requests", force: true do |t|
+    t.integer "issue_id"
+    t.string  "url"
+  end
+
 end

@@ -1,6 +1,6 @@
 class GithubImporter
 
-  def import
+  def import(issues_json)
     issues_json.each do |issue|
       Issue.import(issue)
     end

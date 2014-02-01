@@ -19,5 +19,10 @@ class CreateIssue < ActiveRecord::Migration
       t.belongs_to :issue
       t.string :name
     end
+
+    create_table :pull_requests do |t|
+      t.belongs_to :issue
+      t.string :url
+    end
   end
 end
