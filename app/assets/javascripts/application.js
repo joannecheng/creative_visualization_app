@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require highcharts/highcharts
+//= require d3/d3
+
+//= require regular_bar_chart
