@@ -21,16 +21,17 @@ class Issue < ActiveRecord::Base
         closed_at: issue.github_closed_at,
         is_pull_request: pull_request_issue_ids.include?(issue.id)
       }
-    end.to_json
+    end
   end
 
   def self.new_issues_by_day
     created_at_dates = Issue.all.map(&:github_created_at)
     dates = Range.new(created_at_dates.min, created_at_dates.max)
+
     {
       x_axis: dates.to_a,
       data: dates.map { |date| Issue.where(github_created_at: date).count }
-    }.to_json
+    }
   end
 
   def self.import_issue(content)

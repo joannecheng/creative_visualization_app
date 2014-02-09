@@ -36,7 +36,7 @@ describe Issue do
       expect(Issue.new_issues_by_day).to eq({
         x_axis: [Date.today - 2, Date.yesterday],
         data: [3, 2]
-      }.to_json)
+      })
     end
   end
 

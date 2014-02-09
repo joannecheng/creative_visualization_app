@@ -1,10 +1,25 @@
 createOpenClosedGraph = (data) ->
   $('#bar_graph_container').highcharts
     chart:
-      type: 'bar'
+      type: 'column'
     title:
       text: 'Open vs Closed Issues on Rails'
     series: data
+
+createIssuesByDayGraph = (data) ->
+  $('#issues_by_day_container').highcharts
+    chart:
+      type: 'line'
+    title:
+      text: 'Issue Creation by Date'
+    plotOptions:
+      line:
+        marker:
+          enabled: false
+    series: [
+      name: 'Number issues created'
+      data: data.data
+    ]
 
 numberOfDaysGraph = {}
 averageNumberOfDays = {}
@@ -70,4 +85,5 @@ createCommentTimeline = (data) ->
 
 $ ->
   $.get('/issues/by_count.json', createOpenClosedGraph)
+  $.get('/issues/new_issues_by_day', createIssuesByDayGraph)
   $.get('/issues/timeline.json', createCommentTimeline)

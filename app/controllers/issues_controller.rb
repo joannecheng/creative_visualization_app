@@ -21,7 +21,6 @@ class IssuesController < ApplicationController
   end
 
   def new_issues_by_day
-
     render json: Issue.new_issues_by_day
   end
 
