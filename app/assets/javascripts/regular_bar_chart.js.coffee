@@ -12,6 +12,12 @@ createIssuesByDayGraph = (data) ->
       type: 'line'
     title:
       text: 'Issue Creation by Date'
+    xAxis:
+      labels:
+        step: 14
+        rotation: 45
+      categories:
+        data.x_axis
     plotOptions:
       line:
         marker:
