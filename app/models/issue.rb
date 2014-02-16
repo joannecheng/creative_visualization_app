@@ -25,12 +25,13 @@ class Issue < ActiveRecord::Base
   end
 
   def self.new_issues_by_day
-    created_at_dates = Issue.all.map(&:github_created_at)
+    all_issues = Issue.all
+    created_at_dates = all_issues.map(&:github_created_at)
     dates = Range.new(created_at_dates.min, created_at_dates.max)
 
     {
       x_axis: dates.to_a,
-      data: dates.map { |date| Issue.where(github_created_at: date).count }
+      data: dates.map { |date| all_issues.select { |i| i.github_created_at == date }.count }
     }
   end
 

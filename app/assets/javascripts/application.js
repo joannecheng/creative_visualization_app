@@ -16,3 +16,4 @@
 //= require d3/d3
 
 //= require regular_bar_chart
+//= require comment_timeline
