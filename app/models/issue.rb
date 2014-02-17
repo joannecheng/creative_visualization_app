@@ -1,7 +1,7 @@
 class Issue < ActiveRecord::Base
   has_one :assignee
-  has_one :pull_request
   has_many :labels
+  belongs_to :pull_request
 
   validates :url, uniqueness: true
 
@@ -11,17 +11,6 @@ class Issue < ActiveRecord::Base
 
   def self.open_issues
     Issue.where.not(github_closed_at: nil)
-  end
-
-  def self.timeline_json
-    pull_request_issue_ids = PullRequest.all.map(&:issue_id)
-    Issue.all.map do |issue|
-      {
-        created_at: issue.github_created_at,
-        closed_at: issue.github_closed_at,
-        is_pull_request: pull_request_issue_ids.include?(issue.id)
-      }
-    end
   end
 
   def self.new_issues_by_day
@@ -42,7 +31,9 @@ class Issue < ActiveRecord::Base
     issue.title = content[:title]
     issue.body = content[:body]
     issue.assignee = Assignee.find_or_create_by(login: content[:user][:login])
-    issue.pull_request = PullRequest.find_or_create_by(url: content[:pull_request][:html_url])
+    if content[:pull_request][:html_url]
+      issue.pull_request = PullRequest.find_or_create_by(url: content[:pull_request][:html_url])
+    end
 
     labels = content[:labels].map do |label|
       Label.find_or_create_by(name: label[:name])
@@ -56,6 +47,6 @@ class Issue < ActiveRecord::Base
   end
 
   def pull_request?
-    !pull_request.nil?
+    !pull_request_id.nil?
   end
 end

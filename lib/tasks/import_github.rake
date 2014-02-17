@@ -6,12 +6,12 @@ namespace :import do
   task github: :environment do
     token = ENV['GITHUB_ACCESS_TOKEN']
 
-    # 1..100
-    # 100..200
-    (1..100).each do |page|
-      response = JSON.parse(Faraday.get(format_url(page, token)).body)
-      response.each do |issue_data|
-        Issue.import_issue HashWithIndifferentAccess.new(issue_data)
+    %w(closed open).each do |state|
+      (1..130).each do |page|
+        response = JSON.parse(Faraday.get(format_url(page, token, state)).body)
+        response.each do |issue_data|
+          Issue.import_issue HashWithIndifferentAccess.new(issue_data)
+        end
       end
     end
   end

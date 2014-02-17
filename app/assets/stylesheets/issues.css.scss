@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body {
+  font-family: Palatino, serif;
+}
+
 .axis path {
   fill: none;
   stroke: black;
@@ -15,6 +19,10 @@
   stroke: black;
   fill: none;
   stroke-width: 0.5px;
+}
+
+.with-opacity {
+  opacity: 0.6;
 }
 
 .pull-request {

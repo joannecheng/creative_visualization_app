@@ -1,4 +1,4 @@
-createCommentTimeline = (data, selectorId, w, h) ->
+createIssuesTimeline = (data, selectorId, w, h) ->
   padding = 10
 
   arcData = (d) ->
@@ -6,14 +6,14 @@ createCommentTimeline = (data, selectorId, w, h) ->
 
     unless d.closed_at?
       closed_at = new Date
-      # return []
+      #return []
 
     created_at = Date.parse d.created_at
     [created_at, created_at + 10, closed_at - 10, closed_at]
 
   svg = d3.select("##{selectorId}")
     .append('svg')
-    .attr('class', 'comment-timeline-container')
+    .attr('class', 'issues-timeline-container')
     .attr('width', w)
     .attr('height', h)
 
@@ -47,14 +47,32 @@ createCommentTimeline = (data, selectorId, w, h) ->
     .data(data).enter()
     .append('path')
     .classed('arc', true)
-    #.classed('pull-request', (d) -> d.is_pull_request)
+    .classed('with-opacity', true)
     .attr('d', (d) ->
       lineGenerator(arcData(d))(arcData(d))
     )
     .attr('transform', 'translate(0, -100)')
 
 $ ->
-  if $('#comment_timeline_original').length >0
+  if $('#issues_timeline_original').length >0
     $.get('/issues/timeline', (data) ->
-      createCommentTimeline(data, 'comment_timeline_original', 1550, 500)
+      createIssuesTimeline(data, 'issues_timeline_original', 1550, 500)
+      d3.selectAll('.arc')
+        .classed('with-opacity', false)
+    )
+
+  if $('#issues_timeline_opacity').length > 0
+    $.get('/issues/timeline', (data) ->
+      createIssuesTimeline(data, 'issues_timeline_opacity', 1550, 500)
+    )
+
+  if $('#issues_only_timeline').length > 0
+    console.log 'boom'
+    $.get('/issues/issues_only_timeline', (data) ->
+      createIssuesTimeline(data, 'issues_only_timeline', 1550, 500)
+    )
+
+  if $('#pull_requests_timeline').length > 0
+    $.get('/issues/pull_requests_only_timeline', (data) ->
+      createIssuesTimeline(data, 'pull_requests_timeline', 1550, 500)
     )

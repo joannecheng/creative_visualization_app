@@ -13,18 +13,28 @@ class IssuesController < ApplicationController
         data: [Issue.open_issues.count]
       }
     ]
-    render json: by_count.to_json
+    render json: by_count
   end
 
   def timeline
-    render json: Issue.timeline_json
+    @issues = Issue.all
+
+    render :json, template: 'issues/issues_only_timeline'
   end
 
   def new_issues_by_day
     render json: Issue.new_issues_by_day
   end
 
-  def by_date
+  def issues_only_timeline
+    @issues = Issue.where(pull_request_id: nil)
 
+    render :json, template: 'issues/issues_only_timeline'
+  end
+
+  def pull_requests_only_timeline
+    @issues = Issue.where.not(pull_request_id: nil)
+
+    render :json, template: 'issues/issues_only_timeline'
   end
 end

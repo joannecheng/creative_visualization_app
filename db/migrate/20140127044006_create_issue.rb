@@ -8,6 +8,8 @@ class CreateIssue < ActiveRecord::Migration
       t.date :github_created_at
       t.date :github_closed_at
       t.integer :github_issue_id
+
+      t.belongs_to :pull_request
     end
 
     create_table :assignees do |t|
@@ -21,8 +23,9 @@ class CreateIssue < ActiveRecord::Migration
     end
 
     create_table :pull_requests do |t|
-      t.belongs_to :issue
       t.string :url
     end
+
+    add_index :issues, :pull_request_id
   end
 end
