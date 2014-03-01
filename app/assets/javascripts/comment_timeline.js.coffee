@@ -3,11 +3,9 @@ createIssuesTimeline = (data, selectorId, w, h) ->
 
   arcData = (d) ->
     closed_at = Date.parse(d.closed_at)
-
     unless d.closed_at?
       closed_at = new Date
       #return []
-
     created_at = Date.parse d.created_at
     [created_at, created_at + 10, closed_at - 10, closed_at]
 
@@ -37,11 +35,12 @@ createIssuesTimeline = (data, selectorId, w, h) ->
     d3.svg.line()
       .x((d) -> xScale(d))
       .y((d, i) ->
-        if i == 0 || i == elem.length - 1
+        if i == 0 || i == elem.lineData.length - 1
           yScale(400)
         else
-          yScale(elem[3] - elem[0])
-      ).interpolate('basis')
+          yScale(elem.lineData[3] - elem.lineData[0])
+      )
+      .interpolate('basis')
 
   arcs = svg.selectAll('.arc')
     .data(data).enter()
@@ -49,7 +48,14 @@ createIssuesTimeline = (data, selectorId, w, h) ->
     .classed('arc', true)
     .classed('with-opacity', true)
     .attr('d', (d) ->
-      lineGenerator(arcData(d))(arcData(d))
+      lineData = arcData(d)
+      lineGenerator({lineData: lineData, isClosed: d.closed_at?})(lineData)
+    )
+    .attr('stroke', (d) ->
+      if d.closed_at?
+        '#15226E'
+      else
+        '#888'
     )
     .attr('transform', 'translate(0, -100)')
 

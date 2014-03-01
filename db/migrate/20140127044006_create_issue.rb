@@ -8,8 +8,14 @@ class CreateIssue < ActiveRecord::Migration
       t.date :github_created_at
       t.date :github_closed_at
       t.integer :github_issue_id
+      t.integer :number_comments
 
       t.belongs_to :pull_request
+      t.belongs_to :repo
+    end
+
+    create_table :repos do |t|
+      t.string :url
     end
 
     create_table :assignees do |t|

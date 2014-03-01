@@ -29,7 +29,9 @@ ActiveRecord::Schema.define(version: 20140127044006) do
     t.date    "github_created_at"
     t.date    "github_closed_at"
     t.integer "github_issue_id"
+    t.integer "number_comments"
     t.integer "pull_request_id"
+    t.integer "repo_id"
   end
 
   add_index "issues", ["pull_request_id"], name: "index_issues_on_pull_request_id", using: :btree
@@ -40,6 +42,10 @@ ActiveRecord::Schema.define(version: 20140127044006) do
   end
 
   create_table "pull_requests", force: true do |t|
+    t.string "url"
+  end
+
+  create_table "repos", force: true do |t|
     t.string "url"
   end
 

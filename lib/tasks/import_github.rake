@@ -8,9 +8,12 @@ namespace :import do
 
     %w(closed open).each do |state|
       (1..130).each do |page|
+        repo = Repo.find_or_create_by(
+          url: 'https://api.github.com/repos/rails/rails'
+        )
         response = JSON.parse(Faraday.get(format_url(page, token, state)).body)
         response.each do |issue_data|
-          Issue.import_issue HashWithIndifferentAccess.new(issue_data)
+          repo.issues.import_issue HashWithIndifferentAccess.new(issue_data)
         end
       end
     end

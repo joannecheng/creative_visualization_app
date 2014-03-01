@@ -17,3 +17,4 @@
 
 //= require regular_bar_chart
 //= require comment_timeline
+//= require live_coding
